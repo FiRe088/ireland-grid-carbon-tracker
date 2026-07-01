@@ -1,0 +1,9 @@
+data/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+postgres_data/
+.env
+.vscode/
+logs/
