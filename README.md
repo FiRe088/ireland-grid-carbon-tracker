@@ -11,6 +11,7 @@ Docker for $0. Phase 2 migrates to GCP Always-Free tier.
 
 ## Architecture
 
+```
 PHASE 1 - LOCAL ($0)                    PHASE 2 - CLOUD (GCP Free Tier)
 
 Synthetic EirGrid Data Generator        EirGrid API / Met Eireann API
@@ -32,7 +33,7 @@ v                                       v
 Apache Airflow DAG                      Airflow on GCP e2-micro VM
 (Dockerized, local scheduler)           (Always Free, ~$0/mo)
 
----
+```
 
 ## Tech Stack
 
@@ -45,7 +46,7 @@ Apache Airflow DAG                      Airflow on GCP e2-micro VM
 | Orchestration | Apache Airflow 2.9 | Airflow on e2-micro VM |
 | Containerisation | Docker + Compose | Cloud Run / GCE |
 
----
+```
 
 ## Schema Design (Star Schema)
 
@@ -56,7 +57,7 @@ dim_source ---+
 - `dim_time`: date, year, month, day
 - `dim_source`: wind, gas, coal, hydro, solar, interconnector
 
----
+```
 
 ## Key Engineering Decisions
 
@@ -71,7 +72,7 @@ dim_source ---+
 - **Local-mode Spark**: local[*] in Phase 1 keeps infrastructure simple; 
   same transform code runs on cluster in Phase 2 with zero changes
 
----
+```
 
 ## Running Locally
 
@@ -110,7 +111,7 @@ JOIN dim_source ds ON fg.source_id = ds.source_id
 ORDER BY dt.date, ds.source_name;
 ```
 
----
+```
 
 ## Repository Structure
 
@@ -131,7 +132,7 @@ ireland-grid-carbon-tracker/
 |       |-- Dockerfile          # Custom Airflow image with Java + PySpark
 |-- docker-compose.yml          # Full local stack definition
 
----
+```
 
 ## Profile Summary (for LinkedIn/CV)
 
@@ -144,7 +145,7 @@ ireland-grid-carbon-tracker/
 - Rejected Cloud Composer (~$300/mo) in favour of cost-aware architecture 
   using GCP Always-Free e2-micro VM
 
----
+```
 
 ## Phase 2: GCP Migration (In Progress)
 
