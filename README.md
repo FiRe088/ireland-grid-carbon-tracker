@@ -69,13 +69,14 @@ This design trades operational simplicity for:
 | Containerisation | Docker + Compose         | Cloud Run / GCE          |
 
 ## Schema Design (Star Schema)
-
+```
 dim_time -----+
 +--> fact_generation
 dim_source ---+
 - `fact_generation`: generation_mw, carbon_intensity per source per day
 - `dim_time`: date, year, month, day
 - `dim_source`: wind, gas, coal, hydro, solar, interconnector
+```
 
 ## Key Engineering Decisions
 
