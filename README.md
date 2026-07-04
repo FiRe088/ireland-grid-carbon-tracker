@@ -57,21 +57,17 @@ This design trades operational simplicity for:
 2. Cost ($0/month; could scale to production at ~$50/mo)
 3. Transferability (same PySpark code runs local → GCP → AWS)
 
-```
 ## Tech Stack
 
-| Layer | Local (Phase 1) | Cloud (Phase 2) |
-|---|---|---|
-| Ingestion | Python | Python + Cloud Functions |
-| Storage | Local filesystem | GCS Bucket |
-| Transform | PySpark 3.5 (local mode) | PySpark / BigQuery SQL |
-| Warehouse | PostgreSQL 15 | BigQuery |
-| Orchestration | Apache Airflow 2.9 | Airflow on e2-micro VM |
-| Containerisation | Docker + Compose | Cloud Run / GCE |
+| Layer            | Local (Phase 1)          | Cloud (Phase 2)          |
+|------------------|--------------------------|--------------------------|
+| Ingestion        | Python                   | Python + Cloud Functions |
+| Storage          | Local filesystem         | GCS Bucket               |
+| Transform        | PySpark 3.5 (local mode) | PySpark / BigQuery SQL   |
+| Warehouse        | PostgreSQL 15            | BigQuery                 |
+| Orchestration    | Apache Airflow 2.9       | Airflow on e2-micro VM   |
+| Containerisation | Docker + Compose         | Cloud Run / GCE          |
 
-```
-
-```
 ## Schema Design (Star Schema)
 
 dim_time -----+
@@ -80,8 +76,6 @@ dim_source ---+
 - `fact_generation`: generation_mw, carbon_intensity per source per day
 - `dim_time`: date, year, month, day
 - `dim_source`: wind, gas, coal, hydro, solar, interconnector
-
-```
 
 ## Key Engineering Decisions
 
@@ -108,15 +102,13 @@ dim_source ---+
 docker-compose -f docker-compose.yml up -d
 ```
 
-```
 ### Access services
 
-| Service | URL | Credentials |
-|---|---|---|
-| Airflow UI | http://localhost:8080 | admin / admin |
-| Spark Master UI | http://localhost:8081 | - |
-| PostgreSQL | localhost:5432 | airflow / airflow |
-```
+| Service         | URL                   | Credentials       |
+|-----------------|-----------------------|-------------------|
+| Airflow UI      | http://localhost:8080 | admin / admin     |
+| Spark Master UI | http://localhost:8081 | -                 |
+| PostgreSQL      | localhost:5432        | airflow / airflow |
 
 ### Trigger a pipeline run
 
