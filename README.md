@@ -149,9 +149,9 @@ ireland-grid-carbon-tracker/
 
 ## Phase 2: GCP Migration (In Progress)
 
-- [ ] GCS bucket for raw zone
-- [ ] BigQuery star schema
-- [ ] Airflow on e2-micro Always-Free VM
-- [ ] Cloud Function for ingestion trigger
+- [x] GCS bucket for raw zone
+- [x] BigQuery star schema
+- [x] Airflow on e2-micro Always-Free VM
+- [x] Cloud Function for ingestion trigger
 - [ ] Cost guardrail CI check (BigQuery dry-run)
 - [ ] GitHub Actions CI/CD pipeline
