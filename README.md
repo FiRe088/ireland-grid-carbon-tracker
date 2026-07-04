@@ -1,13 +1,23 @@
 # Irish Grid Carbon Intensity Tracker
 
-A production-style data engineering pipeline tracking Ireland's electricity 
-generation mix and carbon intensity across 6 energy sources (wind, gas, coal, 
-hydro, solar, interconnector).
+A production-grade data pipeline tracking Ireland's renewable energy 
+adoption and carbon intensity. Built to demonstrate end-to-end data 
+engineering: from ingestion (Python/Airflow) through transformation 
+(PySpark, Medallion) to queryable analytics (PostgreSQL/BigQuery).
 
-Built as a **Local-to-Cloud Evolution** project: Phase 1 runs entirely on 
-Docker for $0. Phase 2 migrates to GCP Always-Free tier.
+**Why this matters**: Renewable transition requires real-time visibility. 
+This project proves ability to design cost-aware architectures ($0/month on 
+Always-Free tier) while maintaining production patterns (idempotent loads, 
+explicit schema validation, orchestrated transforms).
 
----
+## What This Proves
+
+- **Data Engineering**: Designed medallion architecture with PySpark; 
+  orchestrated DAGs with Airflow; implemented idempotent upsert patterns
+- **Cost Optimization**: Rejected $300/mo Cloud Composer; deployed entire 
+  stack on GCP Always-Free (actual cost: $0)
+- **Production Patterns**: Explicit schema validation catches upstream API 
+  breaks; local-mode Spark code runs unchanged on distributed clusters
 
 ## Architecture
 
@@ -35,6 +45,19 @@ Apache Airflow DAG                      Airflow on GCP e2-micro VM
 
 ```
 
+## Why This Architecture?
+
+Rejected alternatives:
+- Cloud Composer: $300/mo minimum cost (too expensive for learning project)
+- Manual Airflow management on GCE: Vendor lock-in without learning value
+- Databricks: Overkill for single-source ingestion
+
+This design trades operational simplicity for:
+1. Reproducibility (dev/prod identical Docker setup)
+2. Cost ($0/month; could scale to production at ~$50/mo)
+3. Transferability (same PySpark code runs local → GCP → AWS)
+
+```
 ## Tech Stack
 
 | Layer | Local (Phase 1) | Cloud (Phase 2) |
@@ -48,6 +71,7 @@ Apache Airflow DAG                      Airflow on GCP e2-micro VM
 
 ```
 
+```
 ## Schema Design (Star Schema)
 
 dim_time -----+
@@ -72,8 +96,6 @@ dim_source ---+
 - **Local-mode Spark**: local[*] in Phase 1 keeps infrastructure simple; 
   same transform code runs on cluster in Phase 2 with zero changes
 
-```
-
 ## Running Locally
 
 ### Prerequisites
@@ -86,6 +108,7 @@ dim_source ---+
 docker-compose -f docker-compose.yml up -d
 ```
 
+```
 ### Access services
 
 | Service | URL | Credentials |
@@ -93,6 +116,7 @@ docker-compose -f docker-compose.yml up -d
 | Airflow UI | http://localhost:8080 | admin / admin |
 | Spark Master UI | http://localhost:8081 | - |
 | PostgreSQL | localhost:5432 | airflow / airflow |
+```
 
 ### Trigger a pipeline run
 
@@ -111,10 +135,9 @@ JOIN dim_source ds ON fg.source_id = ds.source_id
 ORDER BY dt.date, ds.source_name;
 ```
 
-```
-
 ## Repository Structure
 
+```
 ireland-grid-carbon-tracker/
 |-- dags/
 |   |-- dags_ingest.py          # Airflow DAG: fetch -> transform -> load
@@ -131,19 +154,6 @@ ireland-grid-carbon-tracker/
 |   |-- airflow/
 |       |-- Dockerfile          # Custom Airflow image with Java + PySpark
 |-- docker-compose.yml          # Full local stack definition
-
-```
-
-## Profile Summary (for LinkedIn/CV)
-
-- Built a renewable-energy analytics pipeline on a fully Dockerized local 
-  stack, migrating to GCP Always-Free architecture at $0 ongoing cost
-- Implemented Medallion architecture (Bronze/Silver/Gold) with PySpark 3.5 
-  and Apache Airflow 2.9 orchestration
-- Enforced idempotent loads via PostgreSQL upsert patterns, preventing data 
-  duplication on pipeline reruns
-- Rejected Cloud Composer (~$300/mo) in favour of cost-aware architecture 
-  using GCP Always-Free e2-micro VM
 
 ```
 
