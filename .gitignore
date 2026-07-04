@@ -7,3 +7,6 @@ postgres_data/
 .env
 .vscode/
 logs/
+gcp-key.json
+docker/airflow/gcs-connector.jar
+docker/airflow/gcs-connector.jar

@@ -1,0 +1,1 @@
+[{"name":"time_id","type":"INTEGER","mode":"REQUIRED"},{"name":"date","type":"DATE","mode":"REQUIRED"},{"name":"year","type":"INTEGER","mode":"REQUIRED"},{"name":"month","type":"INTEGER","mode":"REQUIRED"},{"name":"day","type":"INTEGER","mode":"REQUIRED"}]

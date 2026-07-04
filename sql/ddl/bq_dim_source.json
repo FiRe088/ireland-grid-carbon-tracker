@@ -1,0 +1,1 @@
+[{"name":"source_id","type":"INTEGER","mode":"REQUIRED"},{"name":"source_name","type":"STRING","mode":"REQUIRED"}]

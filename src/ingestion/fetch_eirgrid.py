@@ -5,9 +5,11 @@ from datetime import datetime
 
 SOURCES = ["wind", "gas", "coal", "interconnector", "hydro", "solar"]
 
-def fetch_and_save():
-    today = datetime.now().strftime("%Y-%m-%d")
-    os.makedirs(f"/opt/airflow/data/raw/{today}", exist_ok=True)
+def fetch_and_save(run_date: str = None):
+    if run_date is None:
+        run_date = datetime.now().strftime("%Y-%m-%d")
+
+    os.makedirs(f"/opt/airflow/data/raw/{run_date}", exist_ok=True)
 
     records = []
     for source in SOURCES:
@@ -15,10 +17,10 @@ def fetch_and_save():
             "source_name": source,
             "generation_mw": round(random.uniform(50, 2000), 2),
             "carbon_intensity": round(random.uniform(0, 450), 2),
-            "timestamp": today
+            "timestamp": run_date
         })
 
-    output_path = f"/opt/airflow/data/raw/{today}/grid_data.json"
+    output_path = f"/opt/airflow/data/raw/{run_date}/grid_data.json"
     with open(output_path, "w") as f:
         for record in records:
             f.write(json.dumps(record) + "\n")
@@ -26,4 +28,5 @@ def fetch_and_save():
     print(f"Saved {len(records)} records to {output_path}")
 
 if __name__ == "__main__":
-    fetch_and_save()
+    import sys
+    fetch_and_save(sys.argv[1] if len(sys.argv) > 1 else None)

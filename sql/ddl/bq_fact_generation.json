@@ -1,0 +1,1 @@
+[{"name":"fact_id","type":"INTEGER","mode":"REQUIRED"},{"name":"time_id","type":"INTEGER","mode":"REQUIRED"},{"name":"source_id","type":"INTEGER","mode":"REQUIRED"},{"name":"generation_mw","type":"FLOAT","mode":"NULLABLE"},{"name":"carbon_intensity","type":"FLOAT","mode":"NULLABLE"},{"name":"inserted_at","type":"TIMESTAMP","mode":"NULLABLE"}]
